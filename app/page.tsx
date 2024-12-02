@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { LampContainer } from '@/components/ui/lamp';
 import Link from 'next/link';
+import { ButtonShimmer } from '@/components/ui/button-shimmer';
 
 export default function HomePage() {
   return (
@@ -21,9 +22,11 @@ export default function HomePage() {
         >
           Track Interest. Build Wealth. <br />
           <Link href="/app">
-            <span className="underline md:text-2xl text-2xl text-white hover:opacity-90 border-2 border-slate-50 p-2">
-              Start Tracking
-            </span>
+            <ButtonShimmer className="p-2 mt-8 md:mt-0">
+              <span className="md:text-2xl text-2xl text-white hover:opacity-90">
+                Start Tracking
+              </span>
+            </ButtonShimmer>
           </Link>
         </motion.h1>
       </LampContainer>
