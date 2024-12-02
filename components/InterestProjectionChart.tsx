@@ -62,7 +62,23 @@ const InterestProjectionChart: React.FC<InterestProjectionChartProps> = ({
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
-              <Tooltip />
+              <Tooltip
+                content={({ active, payload, label }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="bg-card p-2 rounded-lg border shadow-sm">
+                        <p className="text-foreground font-medium">{label}</p>
+                        {payload.map((entry, index) => (
+                          <p key={index} style={{ color: entry.color }}>
+                            {entry.name}: ${entry?.value}
+                          </p>
+                        ))}
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
               <Legend />
               {banks.map((bank, index) => (
                 <Line
