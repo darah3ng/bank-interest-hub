@@ -80,7 +80,7 @@ const InterestTracker = () => {
   return (
     <div className="min-h-screen p-4 dark:bg-gray-900">
       <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <h1 className="text-3xl font-bold">Bank Interest Hub</h1>
           <div className="flex space-x-2">
             <Dialog>
