@@ -76,7 +76,7 @@ const InterestProjectionChart: React.FC<InterestProjectionChartProps> = ({
               <Line
                 type="monotone"
                 dataKey="totalAmount"
-                stroke={`${theme === 'dark' ? '#f4f4f4' : '#1f1e1e'}`}
+                stroke={`${theme === 'dark' ? '#929292' : '#1f1e1e'}`}
                 strokeWidth={2}
                 name="Total Amount ($)"
               />

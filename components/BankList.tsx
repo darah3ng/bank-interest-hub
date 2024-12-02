@@ -4,8 +4,14 @@ import React from 'react';
 import { Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { Bank } from '@/types';
-import { calculateMonthlyInterest } from '@/lib/utils';
+import {
+  calculateMonthlyInterest,
+  calculateTotalRate,
+  calculateTotalAmount,
+} from '@/lib/utils';
 
 interface BankListProps {
   banks: Bank[];
@@ -13,6 +19,26 @@ interface BankListProps {
 }
 
 const BankList: React.FC<BankListProps> = ({ banks, setBanks }) => {
+  const updateBankCondition = (id: number, conditionMet: boolean) => {
+    setBanks(
+      banks.map((bank) => {
+        if (bank.id === id) {
+          const totalRate = calculateTotalRate(
+            bank.baseRate,
+            bank.bonusRate,
+            conditionMet
+          );
+          const monthlyInterest = calculateMonthlyInterest(
+            bank.investmentAmount,
+            totalRate
+          );
+          return { ...bank, conditionMet, totalRate, monthlyInterest };
+        }
+        return bank;
+      })
+    );
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {banks.map((bank) => (
@@ -44,22 +70,29 @@ const BankList: React.FC<BankListProps> = ({ banks, setBanks }) => {
                 Investment Amount: ${bank.investmentAmount.toFixed(2)}
               </div>
               <div className="text-sm text-muted-foreground">
-                Monthly Interest: $
-                {calculateMonthlyInterest(
-                  bank.investmentAmount,
-                  bank.totalRate
-                ).toFixed(2)}
+                Monthly Interest: ${bank.monthlyInterest.toFixed(2)}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Monthly Deposit: ${bank.monthlyDeposit.toFixed(2)}
               </div>
               <div className="text-sm font-semibold">
-                Total Amount: $
-                {(
-                  bank.investmentAmount +
-                  calculateMonthlyInterest(
-                    bank.investmentAmount,
-                    bank.totalRate
-                  ) *
-                    12
-                ).toFixed(2)}
+                Total Amount (after 12 months): $
+                {calculateTotalAmount(bank).toFixed(2)}
+              </div>
+              <div className="mt-2">
+                <div className="text-sm font-medium">
+                  Condition: Deposit ${bank.monthlyDeposit.toFixed(2)} monthly
+                </div>
+                <div className="flex items-center space-x-2 mt-1">
+                  <Checkbox
+                    id={`condition-${bank.id}`}
+                    checked={bank.conditionMet}
+                    onCheckedChange={(checked) =>
+                      updateBankCondition(bank.id, checked as boolean)
+                    }
+                  />
+                  <Label htmlFor={`condition-${bank.id}`}>Condition Met</Label>
+                </div>
               </div>
             </div>
           </CardContent>

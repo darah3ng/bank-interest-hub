@@ -4,14 +4,28 @@ import React, { useState, useEffect } from 'react';
 import AddBankForm from './AddBankForm';
 import BankList from './BankList';
 import InterestProjectionChart from './InterestProjectionChart';
+import FinancialReport from './FinancialReport';
+import WhatIfScenario from './WhatIfScenario';
+
 import { Bank, ChartData } from '@/types';
-import { calculateMonthlyInterest } from '@/lib/utils';
+import { FileText, Wand2 } from 'lucide-react';
+
 import { ThemeToggle } from './ThemeToggle';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 const InterestTracker = () => {
   const [mounted, setMounted] = useState(false);
   const [banks, setBanks] = useState<Array<Bank>>([]);
   const [chartData, setChartData] = useState<Array<ChartData>>([]);
+  const [showWhatIf, setShowWhatIf] = useState(false);
 
   const generateChartData = () => {
     const months = [
@@ -31,11 +45,13 @@ const InterestTracker = () => {
     const data = months.map((month, index) => {
       const monthData: ChartData = { month, totalAmount: 0 };
       banks.forEach((bank) => {
-        const monthlyInterest = calculateMonthlyInterest(
-          bank.investmentAmount,
-          bank.totalRate
-        );
-        const bankTotal = bank.investmentAmount + monthlyInterest * (index + 1);
+        let bankTotal = bank.investmentAmount;
+        for (let i = 0; i <= index; i++) {
+          bankTotal += bank.monthlyInterest;
+          if (bank.conditionMet) {
+            bankTotal += bank.monthlyDeposit;
+          }
+        }
         monthData[bank.name] = parseFloat(bankTotal.toFixed(2));
         monthData.totalAmount += bankTotal;
       });
@@ -66,7 +82,35 @@ const InterestTracker = () => {
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">Bank Interest Hub</h1>
-          <ThemeToggle />
+          <div className="flex space-x-2">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Financial Report
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                  <DialogTitle>Financial Report</DialogTitle>
+                  <DialogDescription>
+                    Annual summary of your investments and returns
+                  </DialogDescription>
+                </DialogHeader>
+                <FinancialReport banks={banks} />
+              </DialogContent>
+            </Dialog>
+
+            <Button
+              variant="outline"
+              onClick={() => setShowWhatIf(!showWhatIf)}
+            >
+              <Wand2 className="mr-2 h-4 w-4" />
+              What-If Scenario
+            </Button>
+
+            <ThemeToggle />
+          </div>
         </div>
 
         <AddBankForm banks={banks} setBanks={setBanks} />
@@ -74,6 +118,8 @@ const InterestTracker = () => {
         {chartData.length > 0 && (
           <InterestProjectionChart chartData={chartData} banks={banks} />
         )}
+
+        {showWhatIf && <WhatIfScenario banks={banks} />}
 
         <BankList banks={banks} setBanks={setBanks} />
       </div>
