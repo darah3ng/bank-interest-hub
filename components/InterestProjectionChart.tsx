@@ -68,7 +68,7 @@ const InterestProjectionChart: React.FC<InterestProjectionChartProps> = ({
                     return (
                       <div className="bg-card p-2 rounded-lg border shadow-sm">
                         <p className="text-foreground font-medium">{label}</p>
-                        {payload.map((entry, index) => (
+                        {payload.map((entry: any, index) => (
                           <p key={index} style={{ color: entry.color }}>
                             {entry.name}: ${entry?.value}
                           </p>
