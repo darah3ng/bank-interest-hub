@@ -104,8 +104,7 @@ const AddBankForm: React.FC<AddBankFormProps> = ({ banks, setBanks }) => {
               <Input
                 id="investmentAmount"
                 type="number"
-                step="0.01"
-                value={newBank.investmentAmount}
+                value={newBank.investmentAmount || ''}
                 onChange={(e) =>
                   setNewBank({
                     ...newBank,
@@ -120,8 +119,7 @@ const AddBankForm: React.FC<AddBankFormProps> = ({ banks, setBanks }) => {
               <Input
                 id="baseRate"
                 type="number"
-                step="0.01"
-                value={newBank.baseRate}
+                value={newBank.baseRate || ''}
                 onChange={(e) =>
                   setNewBank({ ...newBank, baseRate: Number(e.target.value) })
                 }
@@ -134,7 +132,7 @@ const AddBankForm: React.FC<AddBankFormProps> = ({ banks, setBanks }) => {
                 id="bonusRate"
                 type="number"
                 step="0.01"
-                value={newBank.bonusRate}
+                value={newBank.bonusRate || ''}
                 onChange={(e) =>
                   setNewBank({ ...newBank, bonusRate: Number(e.target.value) })
                 }
@@ -147,7 +145,7 @@ const AddBankForm: React.FC<AddBankFormProps> = ({ banks, setBanks }) => {
                 id="monthlyDeposit"
                 type="number"
                 step="0.01"
-                value={newBank.monthlyDeposit}
+                value={newBank.monthlyDeposit || ''}
                 onChange={(e) =>
                   setNewBank({
                     ...newBank,

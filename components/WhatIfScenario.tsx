@@ -95,11 +95,12 @@ const WhatIfScenario: React.FC<WhatIfScenarioProps> = ({ banks }) => {
             <Input
               id="additional-deposit"
               type="number"
-              value={additionalMonthlyDeposit}
+              value={additionalMonthlyDeposit || ''}
               onChange={(e) =>
                 setAdditionalMonthlyDeposit(Number(e.target.value))
               }
               min={0}
+              placeholder="Monthly Deposit"
             />
           </div>
           <Button onClick={calculateScenario} disabled={!selectedBank}>
