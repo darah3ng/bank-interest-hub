@@ -52,7 +52,7 @@ const WhatIfScenario: React.FC<WhatIfScenarioProps> = ({ banks }) => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>What-If Scenario Analyzer</CardTitle>
+        <CardTitle>What-If Scenario</CardTitle>
         <CardDescription>Explore potential investment outcomes</CardDescription>
       </CardHeader>
       <CardContent>
