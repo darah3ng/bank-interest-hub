@@ -101,13 +101,22 @@ const InterestTracker = () => {
               </DialogContent>
             </Dialog>
 
-            <Button
-              variant="outline"
-              onClick={() => setShowWhatIf(!showWhatIf)}
-            >
-              <Wand2 className="mr-2 h-4 w-4" />
-              What-If Scenario
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowWhatIf(!showWhatIf)}
+                >
+                  <Wand2 className="mr-2 h-4 w-4" />
+                  What-If Scenario
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl">
+                <div className="py-6">
+                  <WhatIfScenario banks={banks} />
+                </div>
+              </DialogContent>
+            </Dialog>
 
             <ThemeToggle />
           </div>
@@ -119,7 +128,7 @@ const InterestTracker = () => {
           <InterestProjectionChart chartData={chartData} banks={banks} />
         )}
 
-        {showWhatIf && <WhatIfScenario banks={banks} />}
+        {/* {showWhatIf && <WhatIfScenario banks={banks} />} */}
 
         <BankList banks={banks} setBanks={setBanks} />
       </div>
