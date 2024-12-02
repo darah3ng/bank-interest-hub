@@ -6,6 +6,9 @@ export interface Bank {
   totalRate: number;
   monthlyInterest: number;
   investmentAmount: number;
+  condition: string;
+  conditionMet: boolean;
+  monthlyDeposit: number;
 }
 
 export interface ChartData {
